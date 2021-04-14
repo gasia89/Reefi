@@ -1,0 +1,48 @@
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="module" src="./scripts/services/chartService.js"></script>
+<script type="module">
+    //import { ChartService } from "./scripts/services/chartService.js";
+    import { LedPowerConsumptionChart } from "./scripts/models/chart/ledPowerConsumptionChart.js";
+
+    var nowChartHelper = new LedPowerConsumptionChart("Now", null, "chartContainer");
+    nowChartHelper.generateNowChart();
+
+    //var chartData = {};
+    //var chartDataColumn = [];
+    //var chartDataset = [];
+    
+
+    //var data = [
+    //    {
+    //        'datasetLabel': 'DataLabel_1',
+    //        'dataset': [30, 200, 100, 400, 150, 250]
+    //    },
+    //    {
+    //        'datasetLabel': 'DataLabel_2',
+    //        'dataset': [130, 100, 140, 200, 150, 50]
+    //    },
+    //    {
+    //        'datasetLabel': 'DataLabel_3',
+    //        'dataset': [130, -150, 200, 300, -200, 100]
+    //    }
+    //];
+
+    //var options = {
+    //    'showLegend': true,
+    //    'type': 'bar'
+    //}
+
+    //const chartService = new ChartService();
+    //var newChart = chartService.generateChart("chart", data, options);
+
+    //function generateColorDataset(inputData) {
+    //    var firstTenPercent = Math.round(inputData * 0.1);
+    //    var secondThirtyPercent = Math.round(inputData * 0.3);
+    //    var lastSixtyPercent = Math.round(inputData * 0.6);
+
+    //    return [lastSixtyPercent, secondThirtyPercent, firstTenPercent];
+    //}
+</script>

@@ -1,0 +1,15 @@
+﻿{
+    "name": "ReeFi LED",
+    "short_name": "ReeFi LED Duo 🐠💡",
+    "display": "minimal-ui",
+    "start_url": "/",
+    "theme_color": "#673ab6",
+    "background_color": "#111111",
+    "icons": [
+        {
+            "src": "fishonly_logo_sm.png",
+            "sizes": "146x146",
+            "type": "image/png"
+        }
+    ]
+}

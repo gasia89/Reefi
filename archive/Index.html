@@ -1,0 +1,494 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=570, initial-scale=0.68, maximum-scale=0.68, minimum-scale=0.68" />
+    <link rel="manifest" href="manifest.json" />
+    <!--[if lte IE 8]><script type="text/javascript" src="excanvas.js"></script><![endif]-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.15/c3.min.css" rel="stylesheet">
+    <title>ReeFi LED</title>
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <div id="myMenuBar" class="sidemenu" style="font-size:30px;cursor:pointer">&#9776;</div>
+    <div id="myMenuBarBot" class="sidemenubot" style="font-size:30px;cursor:pointer"></div>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn"><strong>&times;</strong></a>
+        <div class="title"><strong><span style="color: #3366ff;">Ree</span><span style="color: #00ccff;">Fi<sup>&reg;</sup></span></strong> LEDs</div>
+        <div id="myMenu">
+            <a href="#" onclick="aquariumNav()">Aquarium 1</a>
+        </div>
+        <p></p>
+        <div>
+            <a href="#" onclick="setupNav()">Group Setup</a>
+        </div>
+        <p></p>
+        <div>
+            <a>Advance Settings</a>
+            <ul>
+                <a href="#" style="font-size:18px" onclick="AdvanceSetup(WiFiFrame)"><li>WiFi Config</li></a>
+                <a href="#" style="font-size:18px" onclick="AdvanceSetup(DateTime)"><li>Set Date & Time</li></a>
+                <a href="#" style="font-size:18px" onclick="AdvanceSetup(InfoFrame)"><li>INFO</li></a>
+                <a id="firmwareMenu" href="#" style="font-size:18px" onclick="AdvanceSetup(PreFW)"><li>Firmware Update</li></a>
+                <a href="#" style="font-size:18px" onclick="AdvanceSetup(PreDefault)"><li>Retrieve LED Settings</li></a>
+                <a href="#" style="font-size:18px" onclick="AdvanceSetup(Demo)"><li>Demo</li></a>
+                <a href="#" style="font-size:18px" onclick="DisplayOnOff()"><li>OLED Display On/Off</li></a>
+                <a href="#" style="font-size:18px" onclick="AdvanceSetup(Admin)"><li>System Tools</li></a>
+            </ul>
+        </div>
+    </div>
+    <!-- Status -->
+    <div id="status" class="status-style">Ramping up to 1.21 jigga-watts...</div>
+
+    <!-- Graph -->
+    <form id="myForm" method="get" target="formFrame">
+        <iframe id="formFrame" src="" name="formFrame"></iframe>
+        <div id="header" class="auto-style9">ReeFi<sup>&reg;</sup> LED</div>
+        <div id="graphAll" style="text-align:center"></div>
+
+        <table>
+            <tr>
+                <td id="modeRow" style="padding-left: 28px;" colspan="2" align="center">
+                    <div id="mode" style="height: 30px; display: inline-block" class="auto-style10">Now</div>
+                    <div id="mode_name" style="display: inline-block" class="auto-style10">Name</div>
+                    <div id="mode_status" style="display: inline-block" class="auto-style10">Status</div>
+                </td>
+                <td id="DeleteMode" valign="top" style="height: 20px; width: 25px" colspan="1" class="tooltip" onclick="deletemode(Mode)">
+                    <strong>X</strong><span class="tooltiptext">Delete this mode and Save Settings</span>
+                </td>
+                <td id="Accl1" valign="bottom" style="height: 20px;" colspan="2" class="auto-style6">
+                    Acclimate
+                    <input id="Acclimate1" name="Acclimate1" type="Number" value="100" class="auto-style7" style="width: 28px" onclick="stopLoop()" onchange="Update_Fields(Mode)">%
+                </td>
+            </tr>
+            <tr>
+                <td id="SettingsAll" colspan="4" align="center">
+                    Settings:
+                    <select name="Settings1">
+                        <option>Profile 1</option>
+                        <option>Profile 2</option>
+                        <option>Profile 3</option>
+                    </select>
+            <tr>
+                <td id="Time" style="height: 20px;" colspan="2" class="rowtext-style">
+                    Time
+                    <input id="H" name="H" type="Number" value="8" class="auto-style7" onclick="stopLoop()" onchange="Update_Time(Mode)">:
+                    <input id="M" name="M" type="Number" value="30" class="auto-style7" onclick="stopLoop()" onchange="Update_Time(Mode)">
+                    <input id="time2" style="width: 100px" type="time" name="time" onclick="stopLoop()" onchange="Update_Time2(Mode)">, TimeZone
+                    <input id="Zone" name="Zone" type="Number" value="-5" class="auto-style7" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                </td>
+                <td id="Accl2" valign="top" style="height: 20px;" colspan="2" class="auto-style6">
+                    for
+                    <input id="Acclimate2" name="Acclimate2" type="Number" value="0" style="width: 20px" class="auto-style7" onclick="stopLoop()" onchange="Update_Fields(Mode)">Days left.
+                </td>
+            </tr>
+            <tr>
+                <td id="PwrTime" style="height: 20px; display: none" colspan="3" class="rowtext-style">
+                    Power On Time
+                    <input id="pwrH" name="H" type="Number" value="8" class="auto-style7" onclick="stopLoop()" onchange="Update_Fields(Mode)"> :
+                    <input id="pwrM" name="M" type="Number" value="30" class="auto-style7" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                    <span class="auto-style12">(Overwriten by NTP)</span>
+                </td>
+            </tr>
+            <tr id="Peak">
+                <td style="height: 20px;" class="auto-style8" colspan="4">
+                    Peak Hrs:
+                    <input id="P1" name="P1" type="Number" value="14" class="auto-style7" onclick="stopLoop()" onchange="Update_Fields(Mode)"> -
+                    <input id="P2" name="P2" type="Number" value="16" class="auto-style7" onclick="stopLoop()" onchange="Update_Fields(Mode)"> at
+                    <input id="P3" name="P3" type="Number" style="width: 40px" value="115" class="auto-style7" onclick="stopLoop()" onchange="Update_Fields(Mode)">%
+                </td>
+            </tr>
+            <tr id="CloudRow">
+                <td colspan="4">
+                    <table class="table-noborder" style="width: 100%; height: 20px">
+                        <tr>
+                            <td id="Cloud" style="height: 20px" class="auto-style6">
+                                Cloud 0%, Max:
+                                <input id="C" name="C" type="Number" min="0" max="80" value="20" class="auto-style7" style="width: 25px" onclick="stopLoop()" onchange="Update_Fields(Mode)">% (Global),
+                            </td>
+                            <td id="label" style="height: 20px; width: 55px;" class="auto-style6">Cloud Factor</td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4">
+
+                    <table id="SliderAll" class=table-noborder>
+                        <tr>
+
+
+                            <td id="CustomBtns" class="ctable" rowspan="9">
+                                <table class="auto-style10" style="width: 100%">
+                                    <tr>
+                                        <td id="cBtnsList">Quick<br>Profiles<p></td>
+                                    </tr>
+                                </table>
+                            </td>
+
+
+                            <td align="right" class="left-col">Cool:</td>
+                            <td align="right" class="auto-style8">
+                                <input id="Slider9" type="range" min="0" max="1023" value="0" step="1" oninput="showValue()" onchange="showValue()" class="slider-style">
+                            </td>
+                            <td class="auto-style2">
+                                <input id="N9" name="N9" type="Number" min="0" max="1023" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_N(Mode)"><label id="Label9" onclick="Label_lv()"><span class="auto-style12">Lv</span></label>
+                                <input id="Per9" name="Per9" type="Number" min="0" max="100" step="0.01" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_P(Mode)"><label id="pLabel9" onclick="Label_lv()">%</label>
+                            </td>
+                            <td id="M9td" class="auto-style8">
+                                <input id="M9" name="M9" type="Number" min="0" max="1023" value="0" class="auto-style3" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" class="left-col">Warm:</td>
+                            <td align="right" class="auto-style8">
+                                <input id="Slider8" type="range" min="0" max="1023" value="0" step="1" oninput="showValue()" onchange="showValue()" class="slider-style">
+                            </td>
+                            <td class="auto-style2">
+                                <input id="N8" name="N8" type="Number" min="0" max="1023" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_N(Mode)"><label id="Label8" onclick="Label_lv()"><span class="auto-style12">Lv</span></label>
+                                <input id="Per8" name="Per8" type="Number" min="0" max="100" step="0.01" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_P(Mode)"><label id="pLabel8" onclick="Label_lv()">%</label>
+                            </td>
+                            <td id="M8td" class="auto-style8">
+                                <input id="M8" name="M8" type="Number" min="0" max="1023" value="0" class="auto-style3" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" class="left-col">Amber:</td>
+                            <td align="right" class="auto-style8">
+                                <input id="Slider7" type="range" min="0" max="1023" value="0" step="1" oninput="showValue()" onchange="showValue()" class="slider-style">
+                            </td>
+                            <td class="auto-style2">
+                                <input id="N7" name="N7" type="Number" min="0" max="1023" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_N(Mode)"><label id="Label7" onclick="Label_lv()"><span class="auto-style12">Lv</span></label>
+                                <input id="Per7" name="Per7" type="Number" min="0" max="100" step="0.01" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_P(Mode)"><label id="pLabel7" onclick="Label_lv()">%</label>
+                            </td>
+                            <td id="M7td" class="auto-style8">
+                                <input id="M7" name="M7" type="Number" min="0" max="1023" value="0" class="auto-style3" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" class="left-col">Lime:</td>
+                            <td align="right" class="auto-style8">
+                                <input id="Slider6" type="range" min="0" max="1023" value="0" step="1" oninput="showValue()" onchange="showValue()" class="slider-style">
+                            </td>
+                            <td class="auto-style2">
+                                <input id="N6" name="N6" type="Number" min="0" max="1023" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_N(Mode)"><label id="Label6" onclick="Label_lv()"><span class="auto-style12">Lv</span></label>
+                                <input id="Per6" name="Per6" type="Number" min="0" max="100" step="0.01" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_P(Mode)"><label id="pLabel6" onclick="Label_lv()">%</label>
+                            </td>
+                            <td id="M6td" class="auto-style8">
+                                <input id="M6" name="M6" type="Number" min="0" max="1023" value="0" class="auto-style3" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" class="left-col">Blue:</td>
+                            <td align="right" class="auto-style8">
+                                <input id="Slider5" type="range" min="0" max="1023" value="0" step="1" oninput="showValue()" onchange="showValue()" class="slider-style">
+                            </td>
+                            <td class="auto-style2">
+                                <input id="N5" name="N5" type="Number" min="0" max="1023" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_N(Mode)"><label id="Label5" onclick="Label_lv()"><span class="auto-style12">Lv</span></label>
+                                <input id="Per5" name="Per5" type="Number" min="0" max="100" step="0.01" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_P(Mode)"><label id="pLabel5" onclick="Label_lv()">%</label>
+                            </td>
+                            <td id="M5td" class="auto-style8">
+                                <input id="M5" name="M5" type="Number" min="0" max="1023" value="0" class="auto-style3" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" class="left-col">R Blue:</td>
+                            <td align="right" class="auto-style8">
+                                <input id="Slider4" type="range" min="0" max="1023" value="0" step="1" oninput="showValue()" onchange="showValue()" class="slider-style">
+                            </td>
+                            <td class="auto-style2">
+                                <input id="N4" name="N4" type="Number" min="0" max="1023" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_N(Mode)"><label id="Label4" onclick="Label_lv()"><span class="auto-style12">Lv</span></label>
+                                <input id="Per4" name="Per4" type="Number" min="0" max="100" step="0.01" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_P(Mode)"><label id="pLabel4" onclick="Label_lv()">%</label>
+                            </td>
+                            <td id="M4td" class="auto-style8">
+                                <input id="M4" name="M4" type="Number" min="0" max="1023" value="0" class="auto-style3" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" class="left-col">Violet:</td>
+                            <td align="right" class="auto-style8">
+                                <input id="Slider3" type="range" min="0" max="1023" value="0" step="1" oninput="showValue()" onchange="showValue()" class="slider-style">
+                            </td>
+                            <td class="auto-style2">
+                                <input id="N3" name="N3" type="Number" min="0" max="1023" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_N(Mode)"><label id="Label3" onclick="Label_lv()"><span class="auto-style12">Lv</span></label>
+                                <input id="Per3" name="Per3" type="Number" min="0" max="100" step="0.01" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_P(Mode)"><label id="pLabel3" onclick="Label_lv()">%</label>
+                            </td>
+                            <td id="M3td" class="auto-style8">
+                                <input id="M3" name="M3" type="Number" min="0" max="1023" value="0" class="auto-style3" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" class="left-col">420nm:</td>
+                            <td align="right" class="auto-style8">
+                                <input id="Slider2" type="range" min="0" max="1023" value="0" step="1" oninput="showValue()" onchange="showValue()" class="slider-style">
+                            </td>
+                            <td class="auto-style2">
+                                <input id="N2" name="N2" type="Number" min="0" max="1023" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_N(Mode)"><label id="Label2" onclick="Label_lv()"><span class="auto-style12">Lv</span></label>
+                                <input id="Per2" name="Per2" type="Number" min="0" max="100" step="0.01" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_P(Mode)"><label id="pLabel2" onclick="Label_lv()">%</label>
+                            </td>
+                            <td id="M2td" class="auto-style8">
+                                <input id="M2" name="M2" type="Number" min="0" max="1023" value="0" class="auto-style3" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" class="left-col">400nm:</td>
+                            <td align="right" class="auto-style8">
+                                <input id="Slider1" type="range" min="0" max="1023" value="0" step="1" oninput="showValue()" onchange="showValue()" class="slider-style">
+                            </td>
+                            <td class="auto-style2">
+                                <input id="N1" name="N1" type="Number" min="0" max="1023" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_N(Mode)"><label id="Label1" onclick="Label_lv()"><span class="auto-style12">Lv</span></label>
+                                <input id="Per1" name="Per1" type="Number" min="0" max="100" step="0.01" value="0" class="auto-style4" onclick="stopLoop()" onchange="Update_Fields_P(Mode)"><label id="pLabel1" onclick="Label_lv()">%</label>
+                            </td>
+                            <td id="M1td" class="auto-style8">
+                                <input id="M1" name="M1" type="Number" min="0" max="1023" value="0" class="auto-style3" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                            </td>
+                        </tr>
+                        <tr id="MasterBar">
+                            <td align="right" class="left-col">Master:</td>
+                            <td align="right" class="auto-style8">
+                                <input id="SliderM" type="range" min="1" max="200" value="100" step="1" oninput="MasterSlider()" onchange="MasterSlider()" class="slider-style">
+                            </td>
+                            <td class="auto-style2">
+                                <input id="PerM" name="PerM" type="Number" min="1" max="200" step="1" value="100" class="auto-style4" onclick="stopLoop()" onchange="MasterPer()"><label id="pLabel1" onclick="Label_lv()">%</label>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+
+
+            <tr id="F">
+                <td align="center" colspan="3">
+                    Fan:
+                    <select align="left" id="Fan" name="Fan" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                        <option value="1">High Speed</option>
+                        <option value="2">Quiet</option>
+                        <option selected="" value="0">Normal</option>
+                    </select>
+                </td>
+
+                <td id="NumOfModesRow" class="right-small" colspan="1" style="display: none">
+                    Num of Modes
+                    <input id="NumOfModes" name="NumOfModes" type="Number" min="0" max="10" value="5" class="modes-style" style="width: 32px" onchange="ModGraph2()">
+                </td>
+            </tr>
+
+            <tr id="R">
+                <td align="right" class="left-col">Ramp:</td>
+                <td align="right" class="auto-style11" colspan="3">
+                    <input id="Rate" name="Rate" type="Number" min="0" value="0" class="auto-style7" style="width: 45px" onclick="stopLoop()" onchange="Update_Fields(Mode)">
+                    <span class="auto-style6">mins </span><span class="auto-style12">(0=instant)</span>
+                </td>
+            </tr>
+            <tr id="Resume_row">
+                <td class="auto-style8" colspan="4">
+                    <input id="Resume" name="Resume" type="button" value="Resume Program" onclick="resume_refresh()" style="visibility: hidden">
+                </td>
+            </tr>
+        </table>
+        <table class="auto-style10">
+            <tr>
+                <td class="auto-style8">
+                    <input type="button" value="Refresh" class="action-button" name="Refresh" onclick="cancel_refresh()" style="width: 95px">
+                </td>
+                <td class="auto-style8">
+                    <input type="button" value="Save" class="action-button" name="NoUpdate" onclick="save_refresh()" style="width: 95px">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <form id="myFormMain" method="get" target="formFrame">
+        <div id="container"></div>
+        <div id="containerp"></div>
+    </form>
+
+    <form id="myFormMainNow" method="get" target="formFrame">
+        <div id="containernow"></div>
+    </form>
+
+    <form id="myFormMainC" method="get" target="formFrame">
+        <div id="containerC"></div>
+    </form>
+
+
+    <form id="myFormSetup" method="get" target="formFrame" class="setup-style" style="display: none">
+        <table class="setup-style">
+            <tr><td class="auto-style10" colspan="2">ReeFi LEDs Setup</td></tr>
+            <tr>
+                <td class="auto-style8" style="width: 200px">Hostname &amp; IP Addr</td>
+                <td class="auto-style8" style="width: 100px">Aquarium #</td>
+            </tr>
+            <tr>
+                <td style="width: 200px; display: inline-block" id="LEDS"></td>
+                <td class="auto-style8" style="width: 100px" id="AQNUM"></td>
+            </tr>
+
+            <tr>
+                <td class="auto-style10" colspan="2">
+                    <p>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="auto-style10" id="ReeFiAdd" colspan="2">
+                    <input style="width: 120px" id="ReeFiAddIp" type="text" placeholder="Enter IP Address" style="display: inline-block">
+                    <input type="button" value="Search" style="display: inline-block" onclick="GetHostIP()">
+                    <p></p>
+                </td>
+
+            </tr>
+
+        </table>
+    </form>
+    <form id="myFormLEDs" method="get" target="formFrame" class="setup-style" style="display: none">
+        <table class="table-noborder" style="height: 35px">
+            <tr>
+                <td class="auto-style8" style="width: 120px">
+                    <input id="scanLED1" name="Scan LED1" type="button" value="Auto Scan LED" onclick="get_LEDs()" style="width: 120px">
+                </td>
+                <td class="auto-style8" style="width: 120px">
+                    <input type="button" value="Save" class="action-button" name="NoUpdate" onclick="GroupLEDsave()" style="width: 95px">
+                </td>
+            </tr>
+        </table>
+        <div id="statusSetup" align="center">Status...</div>
+        <p id="GroupLEDCtn"></p>
+    </form>
+
+    <form id="AdvSetup" align="center" method="get" target="formFrame" class="setup-style" style="display: none;">
+        <iframe id="WiFiFrame" align="center" src="" frameborder="0" scrolling="no" style="display: none">
+            <p>Your browser does not support iframes.</p>
+        </iframe>
+        <iframe id="InfoFrame" align="center" src="" frameborder="0" scrolling="no" style="display: none">
+            <p>Your browser does not support iframes.</p>
+        </iframe>
+
+        <div id="logo" class="info-style"></div>
+        <div id="InfoHeader" class="header-style"></div><p></p>
+
+        <div id="PreFW" class="info-style" align="center">
+            <div>Web GUI and Firmware Update.<br><p><p>Click below to start.<p><p></div>
+            <div><a href="#" onclick="AdvanceSetup(FWFrame)">Firmware Update</a></div>
+        </div>
+
+        <div id="PreDefault" class="info-style" align="center">
+            <div>Retrieve LED settings from:<br><p></p></div>
+            <div><a href="#" onclick="AdvanceSetup(ResetDefaultFrame,'ReeFi_SPS')"><strong>ReeFi's New SPS</strong> LED Settings</a><br><p></p></div>
+            <div><a href="#" onclick="AdvanceSetup(ResetDefaultFrame,'SPS')"><strong>Default SPS</strong> LED Settings</a><br><p></p></div>
+            <div><a href="#" onclick="AdvanceSetup(ResetDefaultFrame,'LPS')"><strong>Default LPS</strong> LED Settings</a><br><p></p></div>
+            <div><a href="#" onclick="AdvanceSetup(ResetDefaultFrame,'User')"><strong>Last User Saved</strong> LED Settings</a><br><br><p></p></div>
+            <div>Save all your settings to file:</div>
+            <div>
+                <input id="SaveFileName" type="text" value="settings_v3.txt" />
+                <button onclick="MyDownload()">Save to File</button><br><br><p></p>
+            </div>
+
+            <div>Load Settings from File</div>
+            <div><input type="file" id="myFile"><button onclick="LoadUserFiletoStr()">Load Settings</button></div>
+        </div>
+
+        <div id="DateTime" class="info-style" align="center">
+
+            <div><p></p></div>
+
+            <table class="table-noborder">
+
+                <tr>
+                    <td class=tooltipcenter>
+                        Date: <input class=style-left-large id="date" type="date" name="date">
+                        <span class="tooltiptextDateTime" onclick="ClearValue('date')">Clear Date</span>
+                        <span class="tooltiptextc">Leave blank<br>for Internet sync.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class=tooltipcenter>
+                        Time: <input class=style-left-large id="time" type="time" name="time">
+                        <span class="tooltiptextDateTime" onclick="ClearValue('time')">Clear Time</span>
+                        <span class="tooltiptextc">Leave blank<br>for Internet sync.</span>
+                    </td>
+                </tr>
+
+                <tr><td>&nbsp;</td></tr>
+
+                <tr><td class=tooltipcenter>Time Zone: <input class=auto-style10 id="timezone" style="width: 55px" type="number" value="-6"></td></tr>
+                <tr><td class=tooltipcenter>Auto Enable Daylight Savings: <input class="largerCheckbox" id="DLS" type="checkbox" checked="checked" name="Checkbox1" value="1" onchange="DLS_fieldupdate()"></td></tr>
+
+                <tr>
+                    <td class=tooltipcenter id="SelectDLSField">
+                        Select DLS Region: <select id="SelectDLS" name="SelectDLS">
+                            <option value="AU">AU</option>
+                            <option value="EU">EU</option>
+                            <option value="Israel">Israel</option>
+                            <option selected="" value="USA">USA</option>
+                        </select>
+                    </td>
+                </tr>
+
+
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                    <td class=tooltipcenter>
+                        Power On Time: <span class="tooltiptextc">Overwriten when auto sync time with Internet.</span>
+                        <input class=style-left-large id="POT" type="time" name="time">
+                    </td>
+                </tr>
+            </table>
+
+            <div><p></p></div>
+
+
+            <div class=tooltipcenter><input type="button" value="Copy Browser Date/Time" onclick="get_DateTime()" style="width: 200px; height:35px"><span class="tooltiptextc">Only use when no Internet WiFi connection.</span></div>
+            <div style="height:10px"></div>
+            <div class=tooltipcenter><input type="button" value="Save" onclick="save_DateTime()" style="width: 200px; height:35px"><span class="tooltiptextc">Will resync Internet time if Date and Time are left blank.</span></div>
+        </div>
+
+        <div id="Demo" class="info-style" align="center">
+            <div>Demo Lightning Mode</div>
+            <div><input type="button" value="Start" onclick="set_LightingMode()" style="width: 100px"></div>
+            <div><audio id="SFX" src=""></audio></div>
+        </div>
+
+
+        <div id="Admin" class="info-style" align="center">
+            <div><input type="button" value="Clear Group Saved Settings" onclick="clear_Group()" style="width: 250px; height:35px"></div>
+            <div style="height:15px"></div>
+            <div class=tooltipcenter><input type="button" value="Power off and Cool down" onclick="cool()" style="width: 250px; height:35px"><span class="tooltiptextc">Cool ReeFi down for power unplug.  Wait for temp is below 35C to unplug power.  Will resume normal schedule after 30min if power is not unplugged.</span></div>
+            <div style="height:30px"></div>
+            <div class=tooltipcenter><input type="button" value="Clear WiFi Saved Settings" onclick="clear_wifi()" style="color:#FF0000; width: 250px; height:35px"><span class="tooltiptextc">This will remove saved WiFi. ReeFi will not reconnect to current WiFi upon next power cycle.</span></div>
+            <div style="height:30px"></div>
+            <div><input type="button" value="Reboot" onclick="restart()" style="width: 250px; height:35px"></div>
+        </div>
+
+        <iframe id="FWFrame" align="center" src="" frameborder="0" scrolling="no" style="display: none">
+            <p>Your browser does not support iframes.</p>
+        </iframe>
+        <div id="FirmwareStatus" class="info-style" align="center" style="display: none">
+            <div>&nbsp;</div>
+            <div id="FirmwareStatusText">Current Version x.xx</div>
+            <div>&nbsp;</div>
+        </div>
+        <iframe id="FirmwareFrame" align="center" src="" frameborder="0" scrolling="no" style="display: none">
+            <p>Your browser does not support iframes.</p>
+        </iframe>
+        <iframe id="ResetDefaultFrame" align="center" src="" frameborder="0" scrolling="no" style="display: none">
+            <p>Your browser does not support iframes.</p>
+        </iframe>
+
+    </form>
+
+    <!-- Modules -->
+    <script type="module" src="/scripts/main.js"></script>
+
+    <!-- Site Javascript -->
+    <script defer src="./scripts/site.js"></script>
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+
+</body>
+    </html>
+

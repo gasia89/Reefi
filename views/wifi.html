@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>ReeFiLED V2 WiFi Config</title>
+    <link rel="stylesheet" type="text/css" href="../css/site.css">
+    <script>
+            function c(l) {
+                document.getElementById('s').value = l.innerText || l.textContent;
+                document.getElementById('p').focus();
+            }
+    </script>
+</head>
+<body>
+    <div style='text-align:left;display:inline-block;min-width:260px;'>
+        <div>
+            <img src="../images/ReeFi_Logo_med_web.png" width="400">
+        </div>
+        <div id="wifi_list">
+            <div>Searching for nearby WiFi...</div>
+        </div>
+        <br />
+        <form method='get' action='wifisave' target="formFrame">
+            <div class='pwd_class'>
+                <input id='s' name='s' length=32 placeholder='SSID'>
+            </div>
+            <div class='pwd_class'>
+                <input id='p' name='p' length=64 type='password' placeholder='password'>
+                <img src="../images/show_password.png" width=40 onmouseover="mouseoverPass();" onmouseout="mouseoutPass();" />
+            </div>
+            <br />
+            <br />
+            <button type='submit' style="width: 100%" onclick="get_wifi_status()">save</button>
+        </form>
+        <br />
+        <div class="c">
+            <a href="#p" onclick="get_wifi_list()">Scan</a>
+        </div>
+
+        <br />
+        <div class="c" id="status" onclick="getting_wifi_status()">Status:"</div>
+        <div>
+            <br><br><em>
+                <strong>Warning</strong>:&nbsp; This is if you do
+                not want to connect to your WiFi router.
+            </em><br>
+        </div>
+        <button type='button' style="width: 100%; background-color: #CC3300;" onclick="ForcedAP()">
+            &lt;&lt;Force AP Mode Only&gt;&gt;
+        </button>
+
+
+    </div>
+    <iframe id="formFrame" src="" name="formFrame"></iframe>

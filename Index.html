@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>ReeFiLED V2 WiFi Config</title>
+    <!--<link rel="stylesheet" type="text/css" href="./css/site.css">-->
+    <link rel="stylesheet" type="text/css" href="./css/nav.css" />
+    <script>
+        function c(l) {
+            document.getElementById('s').value = l.innerText || l.textContent;
+            document.getElementById('p').focus();
+        }
+    </script>
+</head>
+<body>
+    <div id="reeFiApp">
+        <div class="nav-container">
+            <div id="navMain">
+                <button id="openNavBtn">☰</button>
+                <div id="sideNavContainer">
+                    <div id="closeNavBtn">X</div>
+                    <div id="reeFiLogo" class="title"><span style="color: #3366ff;">Ree</span><span style="color: #00ccff;">Fi<sup>&reg;</sup></span> LEDs</div>
+                    <div id="groupMenu">
+                        <span>My Reef</span>
+                    </div>
+                    <div id="navList">
+                        <h3>Advanced Settings</h3>
+                        <ul>
+                            <li class="nav-btn">
+                                <div id="wifiNavBtn">
+                                    <span>
+                                        WiFi Setup
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="nav-btn">
+                                <div id="dateNavBtn">
+                                    <span>
+                                        Date & Time
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="nav-btn">
+                                <div id="infoNavBtn">
+                                    <span>
+                                        Information
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="nav-btn">
+                                <div id="updatesNavBtn">
+                                    <span>
+                                        Updates
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="nav-btn">
+                                <div id="manageSettingsNavBtn">
+                                    <span>
+                                        Manage Settings
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="nav-btn">
+                                <div id="demoNavBtn">
+                                    <span>Run Demo</span>
+                                </div>
+                            </li>
+                            <li class="nav-btn">
+                                <div id="displayNavBtn">
+                                    <span>Toggle OLED Display</span>
+                                </div>
+                            </li>
+                            <li class="nav-btn">
+                                <div id="systemToolsNavBtn">
+                                    <span>System Tools</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="appHeader">
+        </div>
+        <div id="pages">
+            <div id="loadingSection">
+                <br />
+
+                <div id="loadingDiv">
+                    <h1 class="center-contents">Please Wait</h1>
+                </div>
+
+                <br />
+            </div>
+
+            <div id="wifiSetupSection" class="center-contents">
+                <div id="ssidLookupForm" class="wifi-form">
+                    <div>
+                        <div id="ssidLookupResultContainer">
+                            <!-- results will get appended here -->
+                        </div>
+                        <div id="ssidResultPlaceholderMessage">
+                            <span>Searching for nearby WiFi...</span>
+                        </div>
+                    </div>
+
+                    <div id="ssidSubmitForm" class="wifi-form">
+                        <input id='ssidInput' name='ssid' length=32 placeholder='SSID'>
+                        <input id='pwdInput' name='pwd' length=64 type='password' placeholder='password'>
+                        <!-- TODO: Move ICON to CSS as Background Image Property -->
+                        <img id="showPasswordIcon" src="../images/show_password.png" />
+                        <div class="wifi-btn-container">
+                            <button id="saveSSIDBtn" type='submit'>Save</button>
+                            <button id="scanSSIDBtn" type="submit">Re-Scan</button>
+                            <button id="forceAPModeBtn" type='button'>
+                                &lt;&lt;Force AP Mode Only&gt;&gt;
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="wifiStatusElement">
+                        <span>Status:</span><span id="wifiStatusMessage">Waiting for SSID Lookup...</span>
+                    </div>
+                    <div id="warningElement">
+                        <span>Warning:</span>
+                        <span id="warningMessage">
+                            This is only if you do NOT want to connect your lights your WiFi router.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { ReeFiApp } from "./scripts/app/reeFiApp.js";
+
+        window.onload = function () {
+            const app = new ReeFiApp("Uno", "localhost:51295", "10.0.0.160", true, true);
+            app.start();
+        }
+
+    </script>
+</body>
+</html>
