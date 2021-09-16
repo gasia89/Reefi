@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <title>ReeFiLED V2 WiFi Config</title>
-    <!--<link rel="stylesheet" type="text/css" href="./css/site.css">-->
+    <title>ReeFi LED</title>
     <link rel="stylesheet" type="text/css" href="./css/nav.css" />
     <script>
         function c(l) {
@@ -14,134 +13,146 @@
 </head>
 <body>
     <div id="reeFiApp">
-        <div class="nav-container">
-            <div id="navMain">
-                <button id="openNavBtn">☰</button>
-                <div id="sideNavContainer">
-                    <div id="closeNavBtn">X</div>
-                    <div id="reeFiLogo" class="title"><span style="color: #3366ff;">Ree</span><span style="color: #00ccff;">Fi<sup>&reg;</sup></span> LEDs</div>
-                    <div id="groupMenu">
-                        <span>My Reef</span>
-                    </div>
-                    <div id="navList">
-                        <h3>Advanced Settings</h3>
-                        <ul>
-                            <li class="nav-btn">
-                                <div id="wifiNavBtn">
-                                    <span>
-                                        WiFi Setup
-                                    </span>
-                                </div>
-                            </li>
-                            <li class="nav-btn">
-                                <div id="dateNavBtn">
-                                    <span>
-                                        Date & Time
-                                    </span>
-                                </div>
-                            </li>
-                            <li class="nav-btn">
-                                <div id="infoNavBtn">
-                                    <span>
-                                        Information
-                                    </span>
-                                </div>
-                            </li>
-                            <li class="nav-btn">
-                                <div id="updatesNavBtn">
-                                    <span>
-                                        Updates
-                                    </span>
-                                </div>
-                            </li>
-                            <li class="nav-btn">
-                                <div id="manageSettingsNavBtn">
-                                    <span>
-                                        Manage Settings
-                                    </span>
-                                </div>
-                            </li>
-                            <li class="nav-btn">
-                                <div id="demoNavBtn">
-                                    <span>Run Demo</span>
-                                </div>
-                            </li>
-                            <li class="nav-btn">
-                                <div id="displayNavBtn">
-                                    <span>Toggle OLED Display</span>
-                                </div>
-                            </li>
-                            <li class="nav-btn">
-                                <div id="systemToolsNavBtn">
-                                    <span>System Tools</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+        <div id="nav" class="sidenav">
+            <div id="navToggleContainer">
+                <button id="openNavBtn">></button>
+                <button id="closeNavBtn"><</button>
+            </div>
+            <div id="sideNavContainer">
+                <div id="reeFiLogo" class="title">
+                    <span>Ree</span>
+                    <span>Fi</span>
+                    <span><sup>&reg;</sup></span>
+                    <span> LEDs</span>
+                </div>
+                <div id="groupMenu">
+                    <span>My Reef</span>
+                </div>
+                <div id="navList">
+                    <h3>Advanced Settings</h3>
+                    <ul>
+                        <li class="nav-btn">
+                            <div id="wifiNavBtn">
+                                <span>
+                                    WiFi Setup
+                                </span>
+                            </div>
+                        </li>
+                        <li class="nav-btn">
+                            <div id="dateNavBtn">
+                                <span>
+                                    Date & Time
+                                </span>
+                            </div>
+                        </li>
+                        <li class="nav-btn">
+                            <div id="infoNavBtn">
+                                <span>
+                                    Information
+                                </span>
+                            </div>
+                        </li>
+                        <li class="nav-btn">
+                            <div id="updatesNavBtn">
+                                <span>
+                                    Updates
+                                </span>
+                            </div>
+                        </li>
+                        <li class="nav-btn">
+                            <div id="manageSettingsNavBtn">
+                                <span>
+                                    Manage Settings
+                                </span>
+                            </div>
+                        </li>
+                        <li class="nav-btn">
+                            <div id="demoNavBtn">
+                                <span>Run Demo</span>
+                            </div>
+                        </li>
+                        <li class="nav-btn">
+                            <div id="displayNavBtn">
+                                <span>Toggle OLED Display</span>
+                            </div>
+                        </li>
+                        <li class="nav-btn">
+                            <div id="systemToolsNavBtn">
+                                <span>System Tools</span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div id="appHeader">
-        </div>
-        <div id="pages">
-            <div id="loadingSection">
-                <br />
 
-                <div id="loadingDiv">
-                    <h1 class="center-contents">Please Wait</h1>
+        <div id="main">
+            <div id="header">
+                <div id="appHeaderLogo">
+                    <!-- Header Logo Here -->
                 </div>
-
-                <br />
+                <div id="headerStatus">
+                    <span>Status:</span><span id="headerStatusMessage">Waiting for SSID Lookup...</span>
+                </div>
             </div>
+            <div id="pages">
+                <!-- Loading Page Start -->
+                <div id="loadingSection">
+                    <br />
 
-            <div id="wifiSetupSection" class="center-contents">
-                <div id="ssidLookupForm" class="wifi-form">
-                    <div>
+                    <div id="loadingDiv">
+                        <h1 class="center-contents">Please Wait</h1>
+                    </div>
+
+                    <br />
+                </div>
+                <!-- Loading Page End -->
+                <!-- Wifi Setup Page Start -->
+                <div id="wifiSetupPage" class="page-main">
+                    <div id="ssidLookupForm" class="wifi-form">
                         <div id="ssidLookupResultContainer">
                             <!-- results will get appended here -->
                         </div>
-                        <div id="ssidResultPlaceholderMessage">
-                            <span>Searching for nearby WiFi...</span>
+                        <div>
+                            <span>If you do not see your network listed, you can enter it here:</span>
                         </div>
-                    </div>
-
-                    <div id="ssidSubmitForm" class="wifi-form">
                         <input id='ssidInput' name='ssid' length=32 placeholder='SSID'>
                         <input id='pwdInput' name='pwd' length=64 type='password' placeholder='password'>
-                        <!-- TODO: Move ICON to CSS as Background Image Property -->
-                        <img id="showPasswordIcon" src="../images/show_password.png" />
-                        <div class="wifi-btn-container">
-                            <button id="saveSSIDBtn" type='submit'>Save</button>
-                            <button id="scanSSIDBtn" type="submit">Re-Scan</button>
-                            <button id="forceAPModeBtn" type='button'>
+
+                        <div id="showPasswordIcon">
+                            <!-- show password icon will render as a background-image of this element -->
+                        </div>
+
+                        <button id="scanSSIDBtn" class="wifi-form-btn" type="submit">Re-Scan</button>
+                        <button id="saveSSIDBtn" class="wifi-form-btn" type='submit'>Save</button>
+
+                        <label for"advancedOptions">Show Advanced Setup Options:</label>
+                        <input type="checkbox" name="advancedSetupOptionsCheckbox" id="advancedSetupOptionsCheckbox">
+
+                        <div id="advancedSetupOptions">
+                            <div id="warningElement">
+                                <span>Warning:</span>
+                                <span id="warningMessage">
+                                    This is only if you do NOT want to connect your lights your WiFi router.
+                                </span>
+                            </div>
+
+                            <button id="forceAPModeBtn" class="wifi-form-btn" type='button'>
                                 &lt;&lt;Force AP Mode Only&gt;&gt;
                             </button>
                         </div>
-                    </div>
 
-                    <div id="wifiStatusElement">
-                        <span>Status:</span><span id="wifiStatusMessage">Waiting for SSID Lookup...</span>
                     </div>
-                    <div id="warningElement">
-                        <span>Warning:</span>
-                        <span id="warningMessage">
-                            This is only if you do NOT want to connect your lights your WiFi router.
-                        </span>
-                    </div>
+                    <!-- Wifi Setup Page End -->
                 </div>
             </div>
         </div>
-
+        <div id="footer">
+            <div id="footerStatus">
+                <span>Status:</span><span id="footerStatusText"></span>
+            </div>
+        </div>
     </div>
-
-    <script type="module">
-        import { ReeFiApp } from "./scripts/app/reeFiApp.js";
-
-        window.onload = function () {
-            const app = new ReeFiApp("Uno", "localhost:51295", "10.0.0.160", true, true);
-            app.start();
-        }
-
-    </script>
+    <script type="module" src="./scripts/main.js"></script>
 </body>
 </html>

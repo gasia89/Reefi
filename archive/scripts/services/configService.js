@@ -37,7 +37,8 @@ export class ConfigService {
             }
         });
 
-        xhrDoc.open('GET', filePath)
+        xhrDoc.open('GET', filePath);
+
         if (xhrDoc.overrideMimeType) {
             xhrDoc.overrideMimeType('text/plain; charset=x-user-defined');
         }

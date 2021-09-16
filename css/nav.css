@@ -1,125 +1,202 @@
+/* 
+
+    Global Styles
+
+*/
+
 body {
+    background-color: #fff;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+#reeFiApp {
+    width: 100%;
+}
+
+
+/* 
+    
+    pages
+
+*/
+
+.page-main {
+    max-width: 50%;
+    min-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#loadingSection {
+    display: none;
+}
+
+/* 
+    
+    Wifi Page
+
+*/
+
+#ssidLookupResultContainer {
+    width: 100%;
+    max-width: 600px;
+    height: 20ch;
+    border: 2px solid black;
+    background-color: #fff;
+    margin-bottom: 2em;
+}
+
+.wifi-form {
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wifi-form-btn {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 0.5em;
+}
+
+#pwdInput, #ssidInput {
+    width: 99%;
+    max-width: 592px;
+}
+
+#showPasswordIcon {
+    position: relative;
+    height: 1.75em;
+    width: 1.75em;
+    right: -35.5em;
+    bottom: 1.55em;
+    background-image: url("../images/show_password.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#forceAPModeBtn {
+    background-color: #CC3300;
+    line-height: 2.4rem;
+    font-size: 1.2rem;
+    color: #FFF;
+}
+
+#saveSSIDBtn {
+    background-color: #1fa3ec;
+    line-height: 2.4rem;
+    font-size: 1.2rem;
+    color: #FFF;
+}
+
+#advancedSetupOptions {
+    display: none;
+}
+
+/*
+
+    Navigation Styles
+
+*/
+#nav {
+    z-index: 9;
+}
+
+#navToggleContainer {
+    display: flex;
+    flex-direction: column;
+    width: 6ch;
+    margin-top: -100%;
+    margin-left: 6%;
+}
+
+    #navToggleContainer button {
+        position: relative;
+        width: 45px;
+        height: 45px;
+        padding: 10px 15px;
+        z-index: 10;
+    }
+
+    #openNavBtn:hover, #closeNavBtn:hover {
+        background-color: #444;
+    }
+
+#main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #sideNavContainer {
     height: 100%;
-    width: 0;
+    width: 0px;
     position: fixed;
-    z-index: 1;
     top: 0;
     left: 0;
     background-color: #fff;
     overflow: hidden;
     transition: 0.5s;
     padding-top: 60px;
-    border-right: 1px inset #BCBCBC;
+    z-index: 9;
 }
 
-    #sideNavContainer a {
+.sidenav {
+    height: 100%;
+    padding-left: 0.5em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    z-index: 9;
+}
+
+
+
+.nav-btn {
+    width: 250px;
+    font-size: 18px;
+    margin-bottom: 0.25em;
+    word-wrap: break-word;
+    cursor: pointer;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+    .nav-btn span {
+        width: 300px;
         padding: 8px 8px 8px 32px;
         text-decoration: none;
-        font-size: 25px;
         color: #818181;
         display: block;
         transition: 0.3s;
     }
 
-        #sideNavContainer a:hover {
-            color: #f1f1f1;
+        .nav-btn span:hover {
+            background-color: #af0000;
+            cursor: pointer;
+            color: #fff;
         }
 
-#closeNavBtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-#openNavBtn {
-    font-size: 20px;
-    cursor: pointer;
-    padding: 10px 15px;
-    border: none;
-}
-
-    #openNavBtn:hover {
-        background-color: #444;
+    #navList ul {
+        list-style: none;
+        margin-left: -2em;
     }
 
-#navMain {
-    transition: margin-left .5s;
-    padding: 0px;
-}
-
-.nav-container {
-    transition: margin-left .5s;
-    overflow: hidden;
-}
-
-.nav-btn {
-    width: 250px;
-}
-
-#navList h3 {
-    text-wrap: none;
-    width: 350px;
-}
-
-#reeFiLogo {
-    margin-top: -2em;
-    font-size: 2em;
-    background-color: #af0000;
-    padding: 0.4em;
-    height: 1.2em;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow: no-display;
-    text-wrap: none;
-    width: 300px;
-}
-
-    #reeFiLogo span {
+    #navList h3 {
         text-wrap: none;
-    }
-
-#appHeader {
-    width: 100%;
-    height: 12em;
-    background-image: url(../images/ReeFi_Logo_med_web.png);
-    background-position: 50% 8%;
-    background-repeat: no-repeat;
-    justify-content: center;
-    background-attachment: fixed;
-    background-size: auto;
-}
-
-.center-contents {
-    margin-right: auto;
-    margin-left: auto;
-    text-align: center;
-    display: block;
-}
-
-.title .title span {
-    justify-content: left;
-    text-align: left;
-    text-wrap: none;
-}
-
-.nav-btn {
-    margin-bottom: 0.25em;
-    text-wrap: none;
-}
-
-    .nav-btn span {
-        font-size: 1.25em;
-        text-wrap: none;
-        width: 350px;
+        width: 250px;
     }
 
 #groupMenu {
     width: 250px;
+    padding-top: 1em;
+    z-index: 9;
 }
 
     #groupMenu span {
@@ -130,50 +207,90 @@ body {
             color: #818181;
         }
 
-#loadingSection {
+#reeFiLogo {
+    padding: 9px 15px 15px 20px;
+    margin-top: -2.2em;
+    background-color: #af0000;
+    color: #000000;
+    width: 100%;
+    min-width: 300px;
+    font-size: 28px;
+}
+
+    #reeFiLogo span:nth-child(1) {
+        color: #3366ff;
+        font-weight: bold;
+    }
+
+    #reeFiLogo span:nth-child(2) {
+        color: #00ccff;
+        font-weight: bold;
+        margin-left: -5px;
+    }
+
+    #reeFiLogo span:nth-child(3) {
+        font-weight: bold;
+        margin-left: -5px;
+    }
+
+
+/* 
+
+    Header Styles
+
+*/
+
+#header {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25em;
+}
+
+#headerStatus {
+    margin-left: 1em;
+    margin-bottom: 0.5em;
+}
+#headerStatusMessage {
+    margin-left: 1em;
+}
+
+#appHeaderLogo {
+    height: 12em;
+    background-image: url(../images/ReeFi_Logo_med_web.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    width: 25em;
+}
+
+/*
+
+    Footer Styles
+
+*/
+
+#footer {
     display: none;
 }
 
-#showPasswordIcon{
-    width: 40px;
-}
 
-.ssid-input {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0.1em;
-    width: 25%;
-}
+/* 
+    
+    Media Queries and other Mobile Development stuff. 
+    On smaller screens, where width is less than 1230px, change the style of the sidenav
+*/
 
-#wifi_list div {
-    margin-left: -6em;
-}
-
-#forceAPModeBtn {
-    background-color: #CC3300;
-    width: 50%;
-    line-height: 2.4rem;
-    font-size: 1.2rem;
-    color: #FFF;
-}
-
-#saveSSIDBtn {
-    background-color: #1fa3ec;
-    width: 50%;
-    line-height: 2.4rem;
-    font-size: 1.2rem;
-    color: #FFF;
-}
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-width: 600px) {
-    #reeFiLogo {
-        width: 100%;
+@media screen and (max-width: 1230px) {
+    #navList ul {
+        margin-left: -6em;
     }
 
-    #sideNavContainer {
+    #showPasswordIcon {
+        left: 95%;
+    }
+
+    #sideNavContainer, #groupMenu {
         width: 100%;
         margin-left: auto;
         margin-right: auto;
